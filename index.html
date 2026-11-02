@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>雷瓦道場 RAIGA — Typing Arcade</title><style>
+:root{color-scheme:dark;--bg:#101414;--panel:#191f1f;--ink:#e6e5cf;--muted:#89918a;--lime:#dcfa70;--orange:#ff7448}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px "Yu Gothic UI",Meiryo,sans-serif}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,#0000000b 3px 4px);z-index:9}main{max-width:1390px;margin:auto;padding:28px 44px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px}header,footer{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center}header{padding-bottom:20px;border-bottom:1px solid #3c4540}.brand{color:var(--ink);font-weight:900;font-size:30px;text-decoration:none;letter-spacing:2px}.brand span{color:var(--lime)}.brand small{display:block;font:10px monospace;letter-spacing:3px;margin-top:4px}.tag{font-size:12px;color:var(--muted)}button,select{font:inherit}button{cursor:pointer;border:1px solid #465049;background:#222b27;color:var(--ink);padding:11px 16px;border-radius:3px}button:hover{border-color:var(--lime);color:var(--lime)}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:3px}button:disabled{opacity:.4;cursor:default}.cabinet{border:1px solid #465049;border-radius:6px;overflow:hidden;background:var(--panel)}.hud{display:grid;grid-template-columns:1.2fr 1.2fr 1fr .7fr;background:#202824;border-bottom:1px solid #465049;padding:18px 24px;gap:20px}.hud>div{color:#9ca996;font:10px monospace;letter-spacing:2px}.hud strong{display:block;font:30px monospace;letter-spacing:1px;margin-top:6px;color:var(--lime)}.hud>div:last-child strong{color:var(--ink)}.arena{height:365px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 85%,#314538 0,#17231e 48%,#111b18 90%)}.arena-top{display:flex;justify-content:space-between;position:absolute;top:18px;left:22px;right:22px;color:#81907e;font:9px monospace;letter-spacing:1px}.horizon{position:absolute;inset:65% -30% -80%;background:linear-gradient(90deg,transparent 98%,#59704e44 98%),linear-gradient(transparent 95%,#59704e44 95%);background-size:48px 30px;transform:perspective(150px) rotateX(45deg)}.target-wrap{position:relative;text-align:center;padding-top:50px}.eyebrow{font:10px monospace;letter-spacing:3px;color:var(--lime)}#target{font:bold 100px/1.05 monospace;color:var(--lime);text-shadow:0 0 25px #d8ff7040}#fingerHint{font-size:11px;color:#b1bca6;margin:6px}.tile-zone{position:absolute;bottom:45px;left:50%;width:210px;transform:translateX(-50%)}#tiles{display:flex;flex-direction:column;gap:5px}.tile{height:12px;background:#b4bba0;border-top:3px solid #e2e5cb;border-bottom:3px solid #68775c;clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);box-shadow:0 3px #000}.pedestal{height:20px;margin:9px -20px 0;border-top:5px solid #7e886d;background:linear-gradient(90deg,#414d3a 15%,transparent 15% 85%,#414d3a 85%)}#feedback{position:absolute;bottom:12px;width:100%;text-align:center;color:var(--lime);font:12px monospace;letter-spacing:2px}.fragment{position:absolute;background:#d2d6b5;width:22px;height:10px;animation:burst .55s ease-out forwards;z-index:3}@keyframes burst{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}.strike{animation:strike .2s}@keyframes strike{25%{transform:translateX(5px);filter:brightness(1.6)}75%{transform:translateX(-4px)}}.miss{box-shadow:inset 0 0 70px #ff744855}.overlay{position:absolute;inset:0;background:#101b17ed;padding:38px 45px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}.overlay h1{font-size:38px;line-height:1.4;margin:0 0 10px;letter-spacing:3px}.overlay em{color:var(--lime);font-style:normal}.overlay p{font-size:12px;line-height:1.8;color:#acb5a3}.overlay button,#again{background:var(--lime);color:#172016;border:0;font-weight:bold;padding:14px 24px}.overlay button span{font:10px monospace;margin-left:35px}.overlay small{color:#83907d;font-size:10px;margin-top:10px}.controls{display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid #364139}.controls button{font-size:11px;padding:8px 12px}.controls>span{margin-left:auto;color:#9ba692;font:11px monospace}.guide{padding:17px 20px}.guide-title{display:flex;justify-content:space-between;color:#a5b192;font:9px monospace;letter-spacing:1px;margin-bottom:14px}#keyboard{max-width:620px;margin:auto}.key-row{display:flex;justify-content:center;gap:4px;margin:4px 0}.key{height:30px;flex:1;max-width:38px;display:flex;align-items:center;justify-content:center;border:1px solid #455041;border-bottom:3px solid #394336;border-radius:4px;color:#89947f;font:12px monospace;background:#222b23}.key.active{background:var(--lime);color:#1a2615;border-color:var(--lime);box-shadow:0 0 12px #dcfa7033}.key.home{text-decoration:underline;text-underline-offset:5px}#hands{display:flex;justify-content:center;gap:40px;margin-top:15px}.hand{display:flex;align-items:end;gap:5px}.finger{width:23px;height:34px;background:#293329;border:1px solid #4b5845;border-radius:10px 10px 4px 4px;font-size:8px;text-align:center;padding-top:12px;color:#91a083}.finger:nth-child(2),.finger:nth-child(4){height:44px}.finger:nth-child(3){height:50px}.finger.active{background:var(--lime);color:#172016;border-color:var(--lime)}.panel{background:var(--panel);border:1px solid #3a443d;padding:20px;border-radius:5px;margin-bottom:16px}.section-title{display:flex;align-items:center;gap:10px;font:11px monospace;color:var(--lime);margin-bottom:15px}h2{font-size:14px;color:var(--ink);margin:0}#levels{display:grid;gap:7px}.level{text-align:left;display:flex;gap:12px;align-items:center;padding:10px}.level b{font:20px monospace;color:#83917b}.level span{font-size:12px}.level small{display:block;color:#88947e;font:9px monospace;margin-top:4px}.level.selected{border-color:var(--lime);background:#303b24}.level.selected b{color:var(--lime)}.note{font-size:10px;color:var(--muted);line-height:1.9;margin:14px 0 0}.settings label{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin:15px 0;gap:12px}select{background:#273025;color:var(--ink);padding:5px;border:1px solid #4d5945;font-size:11px}input[type=checkbox]{accent-color:var(--lime);width:16px;height:16px}details{border-top:1px solid #3b453b;padding-top:13px;font-size:11px;color:#a7b39b}summary{cursor:pointer}details p{line-height:1.8}details input{width:85px;background:#101810;color:var(--ink);border:1px solid #536149;padding:5px}.tip{font-size:11px;padding:5px 10px;color:#9da991;line-height:1.8}.tip b{color:var(--lime)}footer{font:9px monospace;letter-spacing:1px;color:#68765f;padding:5px 0}dialog{background:#1b281f;color:var(--ink);border:1px solid var(--lime);padding:40px;max-width:95vw}dialog::backdrop{background:#000b}dialog h2{font-size:24px;margin:18px 0}#resultScore{font:48px monospace;color:var(--lime)}dialog p{line-height:1.9;font-size:13px}[hidden]{display:none!important}@media(max-width:1000px){main{padding:20px;grid-template-columns:minmax(0,1fr) 260px;gap:15px}.hud{padding:15px}.controls{flex-wrap:wrap}.controls>span{width:100%;margin:4px 0}}@media(max-width:760px){main{display:block;padding:12px}header{margin-bottom:15px}.tag{display:none}.cabinet{margin-bottom:20px}.hud{gap:10px}.hud strong{font-size:24px}.hud>div{font-size:8px}.arena-top{font-size:7px}.guide{padding:14px 7px}.key{font-size:10px}.overlay{padding:30px}.overlay h1{font-size:32px}footer span{display:none}footer{margin-top:20px}#hands{gap:20px}aside{display:grid;gap:12px;grid-template-columns:1fr 1fr}.panel{padding:14px}.tip{grid-column:1/-1}}@media(prefers-reduced-motion:reduce){*,*:before{animation-duration:.01ms!important}}
+
+
+#tileCount{position:absolute;top:-25px;width:100%;text-align:center;color:var(--lime);font:11px monospace;letter-spacing:1px}#tiles{min-height:80px;justify-content:flex-end}.tile{transition:visibility 0s,opacity .1s}
+
+/* Tile countdown: preview the next loss, then animate its departure. */
+#tileCount{top:-53px;font-size:13px;font-weight:bold}
+#tileCountdown{position:absolute;top:-34px;width:100%;text-align:center;font-size:10px;color:#b8c4ac;font-variant-numeric:tabular-nums}
+#tileTimer{position:absolute;top:-15px;left:0;right:0;height:5px;background:#3c4934;border-radius:3px;overflow:hidden}
+#tileTimerFill{height:100%;width:100%;background:var(--lime);transform-origin:left;transition:transform 40ms linear}
+#tileTimer.urgent #tileTimerFill{background:var(--orange)}
+.tile-warning{animation:tile-warning .28s ease-in-out infinite alternate}
+@keyframes tile-warning{to{background:#ffac65;border-top-color:#ffd5a2;filter:brightness(1.3)}}
+.tile-expiring{position:absolute;left:0;width:100%;pointer-events:none;z-index:4;animation:tile-expire .5s ease-out forwards;background:var(--orange);border-top-color:#ffbe83}
+@keyframes tile-expire{0%{opacity:1;transform:translate(0,0)}30%{opacity:1;transform:translate(18px,-8px) rotate(4deg)}100%{opacity:0;transform:translate(95px,30px) rotate(18deg)}}
+#tileNotice{position:absolute;right:-62px;top:20px;color:var(--orange);font:bold 25px monospace;opacity:0;pointer-events:none}
+#tileNotice.show{animation:tile-notice .65s ease-out forwards}
+@keyframes tile-notice{15%{opacity:1}70%{opacity:1;transform:translateY(-12px)}100%{opacity:0;transform:translateY(-20px)}}
+@media(prefers-reduced-motion:reduce){.tile-expiring,.tile-warning,#tileNotice.show{animation:none}.tile-expiring{display:none}#tileTimerFill{transition:none}}
+
+/* Keep prompt, countdown, tiles and feedback in separate flow rows. */
+.arena{height:auto;min-height:448px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:18px 22px 14px;isolation:isolate}
+.arena-top{position:relative;top:auto;left:auto;right:auto;width:100%;min-height:12px;gap:8px;flex-wrap:wrap;line-height:1.5}
+.horizon{z-index:-1;pointer-events:none}
+.target-wrap{padding:0;display:grid;justify-items:center;gap:6px;width:100%}
+#prompt{line-height:16px}
+#target{line-height:105px;min-height:105px}
+#fingerHint{margin:0;min-height:18px;line-height:18px}
+.tile-zone{position:relative;bottom:auto;left:auto;transform:none;flex:none;width:min(210px,100%);display:flex;flex-direction:column;gap:8px;margin:0 auto}
+#tileCount{position:static;top:auto;min-height:18px;line-height:18px;white-space:nowrap}
+#tileCountdown{position:static;top:auto;min-height:15px;line-height:15px;white-space:nowrap}
+#tileTimer{position:relative;top:auto;left:auto;right:auto;flex:none;min-height:5px}
+#tileTimer[hidden]{display:block!important;visibility:hidden}
+#tiles{height:80px;min-height:80px;flex:none}
+.pedestal{margin:0 -20px;height:20px;flex:none}
+#tileNotice{top:auto;bottom:64px;right:-65px}
+#feedback{position:relative;bottom:auto;min-height:32px;line-height:1.7;padding:0 4px;overflow-wrap:anywhere;letter-spacing:1px;text-align:center}
+.overlay{z-index:5}
+@media(max-width:480px){.arena{padding:16px 14px 12px;gap:14px}.arena-top{font-size:7px;letter-spacing:0}.arena-top span{max-width:100%}#tileNotice{right:-49px;font-size:20px}#feedback{font-size:11px}}
+</style></head>
+<body><main><header><a class="brand" href="./">雷<span>瓦</span>道場 <small>RAIGA / TYPING ARCADE</small></a><span class="tag">手元を見ずに、限界を砕け。</span></header>
+<section class="cabinet"><div class="hud"><div>SCORE<strong id="score">000000</strong></div><div>BEST<strong id="best">000000</strong></div><div id="clockLabel">TIME / 残り<strong id="time">—</strong></div><div>LEVEL<strong id="levelDisplay">01</strong></div></div>
+<div class="arena" id="arena" tabindex="-1" aria-label="タイピングゲーム画面"><div class="arena-top"><span>電撃打鍵修行 / ELECTRIC TILE BREAKER</span><span id="progress">20 KEY TRAINING</span></div><div class="horizon"></div><div class="target-wrap"><span class="eyebrow" id="prompt">READY TO STRIKE</span><div id="target">F</div><div id="fingerHint">左人差し指</div></div><div class="tile-zone" id="tileZone"><div id="tileCount">今なら 5枚 / +5点</div><div id="tileCountdown">次の減少まで 1.5秒</div><div id="tileTimer" aria-hidden="true"><div id="tileTimerFill"></div></div><div id="tileNotice" aria-hidden="true"></div><div id="tiles"></div><div class="pedestal"></div></div><div id="feedback" role="status">一打に、集中。</div><div id="overlay" class="overlay"><h1>一打で、<br><em>限界を砕け。</em></h1><p>文字を見て、正しいキーを打つ。<br>速い一打ほど、多くの瓦が砕ける。</p><button id="start">修行をはじめる <span>↵ ENTER</span></button><small>日本語入力をOFFにしてプレイ</small></div></div>
+<div class="controls"><button id="pause" disabled>Ⅱ 一時停止</button><button id="retry">↻ 再挑戦</button><span id="stats">ミス率 0.0%　 /　平均反応 — 秒</span></div>
+<section class="guide" id="guide"><div class="guide-title"><span>KEY & FINGER GUIDE</span><span id="guideText">ホームポジションに指を置こう</span></div><div id="keyboard"></div><div id="hands"></div></section></section>
+<aside><section class="panel"><div class="section-title">01 <h2>修行を選ぶ</h2></div><div id="levels"></div><p class="note">Lv.1–4：20問 / ミスしても同じ文字<br>Lv.5：60秒 / ミスすると次の文字</p></section><section class="panel settings"><div class="section-title">02 <h2>道場設定</h2></div><label>キーボード配列<select id="layout"><option value="jis">日本語 JIS</option><option value="us">English US</option></select></label><label>キー・指ガイド<input id="showGuide" type="checkbox" checked></label><label>キーボード表示<input id="showKeyboard" type="checkbox" checked></label><label>効果音<input id="sound" type="checkbox" checked></label><details><summary>反応時間の閾値を調整</summary><p>出題時は5枚。以下の秒数を過ぎるたびに4・3・2・1枚へ減少します。残った瓦を割り、1枚につき1点。ミスでも1枚減ります（最低1枚）。初期設定は1.5秒間隔。</p><div id="thresholds"></div><button id="saveThreshold">設定を適用</button><p id="settingMessage" role="status"></p></details></section><div class="tip"><b>鍛えるのは、速さと正確さ。</b><p>肩の力を抜き、FとJの突起を目印に。<br>Escで一時停止。焦らず、一打ずつ。</p></div></aside>
+<footer>RAIGA DOJO © 2026 · ORIGINAL PIXEL-FREE ARCADE <span>HTML / CSS / JAVASCRIPT · OFFLINE READY</span></footer></main><dialog id="result"><span class="eyebrow">TRAINING COMPLETE</span><h2>修行、お疲れさま。</h2><strong id="resultScore"></strong><p id="resultStats"></p><p id="record"></p><button id="again">もう一度挑戦</button><button id="closeResult">道場に戻る</button></dialog><script>
+'use strict';
+(() => {
+const $=id=>document.getElementById(id);
+const names=['左小指','左薬指','左中指','左人差し指','右人差し指','右中指','右薬指','右小指'];
+const descriptions=['ホームポジション','上段を追加','下段を追加','数字・記号を追加','60秒スコアアタック'];
+const letters=['asdfjkl;','asdfghjkl;qwertyuiop','abcdefghijklmnopqrstuvwxyz;','abcdefghijklmnopqrstuvwxyz;1234567890-^@[]:,./\\','abcdefghijklmnopqrstuvwxyz;1234567890-^@[]:,./\\'];
+const usRows=['1234567890-=','qwertyuiop[]\\',"asdfghjkl;'",'zxcvbnm,./'];
+const jisRows=['1234567890-^\\','qwertyuiop@[','asdfghjkl;:]','zxcvbnm,./\\'];
+let level=1, state='idle',target='',score=0,correct=0,misses=0,totalMs=0,remaining=60000,lastTick=0,shown=0,pausedAt=0,raf=0,audio,thresholds=[1500,3000,4500,6000],best={},settings={},tilePenalty=0;
+try{best=JSON.parse(localStorage.getItem('raiga.best.v1')||'{}');settings=JSON.parse(localStorage.getItem('raiga.settings.v1')||'{}');if(!best||typeof best!=='object')best={};if(!settings||typeof settings!=='object')settings={};}catch{best={};settings={};}
+const validThresholds=t=>Array.isArray(t)&&t.length===4&&t.every((v,i)=>Number.isFinite(v)&&v>=50&&v<=10000&&(!i||v>t[i-1]));
+if(settings.rulesVersion===3&&validThresholds(settings.thresholds))thresholds=settings.thresholds;
+for(const id of ['showGuide','showKeyboard','sound'])if(typeof settings[id]==='boolean')$(id).checked=settings[id];
+$('layout').value=settings.layout==='us'?'us':'jis';
+function persist(){try{localStorage.setItem('raiga.settings.v1',JSON.stringify({rulesVersion:3,layout:$('layout').value,showGuide:$('showGuide').checked,showKeyboard:$('showKeyboard').checked,sound:$('sound').checked,thresholds}));}catch{}}
+function recordKey(){return `v3-${$('layout').value}-${level}-${thresholds.join('-')}`;}
+function finger(char){const rows=$('layout').value==='us'?usRows:jisRows;for(let r=0;r<rows.length;r++){let i=rows[r].indexOf(char);if(i>=0){const map=r===3?[0,1,2,3,3,4,4,5,6,7,7]:[0,1,2,3,3,4,4,5,6,7,7,7,7];return map[i]??7;}}return 7;}
+function renderGuide(){const on=$('showGuide').checked;const f=finger(target);$('fingerHint').textContent=on?names[f]:'';$('guideText').textContent=on?`${target.toUpperCase()} → ${names[f]}`:'ガイド OFF';$('keyboard').hidden=!$('showKeyboard').checked;$('hands').hidden=!on;$('keyboard').replaceChildren();for(const row of ($('layout').value==='us'?usRows:jisRows)){const el=document.createElement('div');el.className='key-row';for(const c of row){const k=document.createElement('span');k.className='key'+('fj'.includes(c)?' home':'')+(on&&c===target?' active':'');k.textContent=c==='\\'?'\\':c.toUpperCase();el.append(k);}$('keyboard').append(el);}$('hands').replaceChildren();for(let hand=0;hand<2;hand++){const h=document.createElement('div');h.className='hand';for(const idx of hand===0?[0,1,2,3]:[4,5,6,7]){const el=document.createElement('span');el.className='finger'+(on&&idx===f?' active':'');el.textContent=['小','薬','中','人','人','中','薬','小'][idx];el.title=names[idx];h.append(el);}$('hands').append(h);}}
+function tiles(n=5){$('tiles').replaceChildren();for(let i=0;i<n;i++){const t=document.createElement('div');t.className='tile';$('tiles').append(t);}}
+function breakCount(elapsed){return Math.max(1,5-thresholds.filter(t=>elapsed>=t).length-tilePenalty);}
+function updateTiles(now){
+ const elapsed=Math.max(0,now-shown),n=breakCount(elapsed),previous=$('tiles').children.length;
+ if(previous!==n){
+  if(previous>n&&elapsed>0){for(let i=n;i<previous;i++){const ghost=document.createElement('div');ghost.className='tile tile-expiring';ghost.style.bottom=`${29+i*17}px`;$('tileZone').append(ghost);setTimeout(()=>ghost.remove(),550);}
+   $('tileNotice').textContent=`−${previous-n}枚`;$('tileNotice').classList.remove('show');void $('tileNotice').offsetWidth;$('tileNotice').classList.add('show');
+  }
+  tiles(n);
+ }
+ const boundary=thresholds.find(t=>t>elapsed),index=thresholds.findIndex(t=>t>elapsed),previousBoundary=index>0?thresholds[index-1]:0;
+ const ratio=n>1&&boundary!==undefined?Math.max(0,(boundary-elapsed)/(boundary-previousBoundary)):0;
+ $('tileTimerFill').style.transform=`scaleX(${ratio})`;
+ $('tileTimer').classList.toggle('urgent',n>1&&ratio<.3);
+ $('tileTimer').hidden=n===1;
+ if($('tiles').children[0]){$('tiles').children[0].classList.toggle('tile-warning',n>1&&ratio<.3);}
+ const countdown=n>1&&boundary!==undefined?`次の減少まで ${((boundary-elapsed)/1000).toFixed(1)}秒`:'最低1枚 / これ以上は減りません';
+ $('tileCount').textContent=`今なら ${n}枚 / +${n}点`;
+ $('tileCountdown').textContent=countdown;
+}
+function hud(){ $('score').textContent=String(score).padStart(6,'0');$('best').textContent=String(Number(best[recordKey()])||0).padStart(6,'0');$('levelDisplay').textContent=String(level).padStart(2,'0');$('time').textContent=level===5?(remaining/1000).toFixed(1)+' 秒':'—';$('progress').textContent=level===5?'60 SECOND SCORE ATTACK':`${correct} / 20 KEYS`;$('stats').textContent=`ミス率 ${correct+misses?(100*misses/(correct+misses)).toFixed(1):'0.0'}%　 /　平均反応 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;}
+function pool(){let p=letters[level-1];if(level>=4&&$('layout').value==='us')p="abcdefghijklmnopqrstuvwxyz;1234567890-=[]',./\\";return p;}
+function focusGame(){const arena=$('arena');if(arena.focus)arena.focus({preventScroll:true});}
+function advanceQuestion(penalty=0,first=false){$('tileNotice').classList.remove('show');tilePenalty=penalty;const p=pool();let options=[...p].filter(c=>c!==target);target=first?'f':options[Math.floor(Math.random()*options.length)];$('target').textContent=target.toUpperCase();renderGuide();shown=performance.now();tiles();updateTiles(shown);}
+function tone(good,n=1){if(!$('sound').checked)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();const resumed=audio.resume();if(resumed&&resumed.catch)resumed.catch(()=>{});const t=audio.currentTime;for(let i=0;i<(good?n:1);i++){const o=audio.createOscillator(),g=audio.createGain();const at=t+i*.045;o.type=good?(n>=4?'sawtooth':'triangle'):'square';o.frequency.setValueAtTime(good?170+n*65+i*90:110,at);o.frequency.exponentialRampToValueAtTime(good?35+n*8:45,at+.12+n*.012);g.gain.setValueAtTime(good?.035+n*.006:.035,at);g.gain.exponentialRampToValueAtTime(.001,at+.16+n*.012);o.connect(g).connect(audio.destination);o.start(at);o.stop(at+.19+n*.012);}}catch{}}
+function burst(n){for(let i=0;i<n*5;i++){const e=document.createElement('i');e.className='fragment';e.style.left=`${35+Math.random()*30}%`;e.style.top=`${245+Math.random()*55}px`;e.style.setProperty('--x',`${(Math.random()-.5)*450}px`);e.style.setProperty('--y',`${-80+Math.random()*220}px`);e.style.setProperty('--r',`${Math.random()*700}deg`);$('arena').append(e);setTimeout(()=>e.remove(),600);}$('arena').classList.remove('strike');void $('arena').offsetWidth;$('arena').classList.add('strike');}
+function tick(){const now=performance.now();if(state!=='playing')return;if(level===5){remaining=Math.max(0,remaining-(now-lastTick));if(!remaining){finish();return;}}lastTick=now;updateTiles(now);hud();raf=setTimeout(tick,40);}
+function lock(on){$('layout').disabled=on;$('saveThreshold').disabled=on;document.querySelectorAll('.level').forEach(b=>b.disabled=on);}
+function start(){clearTimeout(raf);$('result').close();state='playing';score=correct=misses=totalMs=0;remaining=60000;tilePenalty=0;$('overlay').hidden=true;$('pause').disabled=false;$('pause').textContent='Ⅱ 一時停止';$('prompt').textContent='STRIKE THE KEY';$('feedback').textContent='一打に、集中。';lock(true);tiles();advanceQuestion(0,true);lastTick=performance.now();hud();raf=setTimeout(tick,40);focusGame();}
+function pause(){if(state==='playing'){state='paused';pausedAt=performance.now();clearTimeout(raf);$('overlay').hidden=false;$('overlay').innerHTML='<h1>一息、入れよう。</h1><p>計測は停止しています。</p><button id="resume">修行を再開 ↵</button>';$('resume').onclick=pause;$('pause').textContent='▶ 再開';}else if(state==='paused'){const now=performance.now();shown+=now-pausedAt;lastTick=now;state='playing';$('overlay').hidden=true;$('pause').textContent='Ⅱ 一時停止';raf=setTimeout(tick,40);focusGame();}}
+function finish(){state='finished';clearTimeout(raf);lock(false);$('pause').disabled=true;const prev=Number(best[recordKey()])||0;const fresh=score>prev;if(fresh){best[recordKey()]=score;try{localStorage.setItem('raiga.best.v1',JSON.stringify(best));}catch{}}hud();$('resultScore').textContent=`${score.toLocaleString()} pt`;$('resultStats').textContent=`Lv.${level} / ${correct} 正解・${misses} ミス / ミス率 ${correct+misses?(misses/(correct+misses)*100).toFixed(1):'0.0'}% / 平均 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;$('record').textContent=fresh?'NEW RECORD — 自己ベスト更新！':'次の一打で、さらに上へ。';$('result').showModal();}
+function hit(e){
+ const element=e.target;
+ if(element&&typeof element.closest==='function'&&element.closest('input,select,textarea,summary,dialog'))return;
+ if(e.key==='Enter'&&element&&typeof element.closest==='function'&&element.closest('button'))return;
+ if(e.key==='Escape'){e.preventDefault();pause();return;}
+ if(e.key==='Enter'&&(state==='idle'||state==='finished')){e.preventDefault();start();return;}
+ if(e.key==='Enter'&&state==='paused'){e.preventDefault();pause();return;}
+ if(state!=='playing'||e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.isComposing||e.key==='Process'||e.key.length!==1)return;
+ e.preventDefault();const now=performance.now();
+ if(level===5&&remaining-(now-lastTick)<=0){remaining=0;finish();return;}
+ if(e.key.toLowerCase()===target){
+  const ms=now-shown,n=breakCount(ms);score+=n;correct++;totalMs+=ms;
+  const complete=level<5&&correct>=20;
+  // Update the next playable question before running optional audiovisual effects.
+  if(!complete)advanceQuestion();
+  hud();$('feedback').textContent=`${n} BREAK! +${n} / ${(ms/1000).toFixed(3)} 秒`;
+  try{burst(n);}catch(error){console.warn('破壊演出をスキップしました',error);}
+  tone(true,n);if(complete)finish();
+ }else{
+  misses++;tilePenalty++;updateTiles(now);
+  if(level===5)advanceQuestion(1);
+  hud();$('feedback').textContent=level===5?'MISS — 瓦を1枚減らして次の文字へ':'MISS — 瓦が減少、同じ文字に再挑戦';
+  tone(false);$('arena').classList.add('miss');setTimeout(()=>$('arena').classList.remove('miss'),150);
+ }
+}
+// Event wiring
+for(let i=1;i<=5;i++){const b=document.createElement('button');b.className='level'+(i===level?' selected':'');b.innerHTML=`<b>0${i}</b><span>${descriptions[i-1]}<small>${['ASDF JKL;','+ QWERTY / GH','+ ZXCVBNM','+ 123 / SYMBOLS','ALL KEYS · 60 SEC'][i-1]}</small></span>`;b.onclick=()=>{level=i;document.querySelectorAll('.level').forEach((b,j)=>b.classList.toggle('selected',j+1===i));hud();advanceQuestion();b.blur();};$('levels').append(b);}
+thresholds.forEach((v,i)=>{const l=document.createElement('label');l.textContent=`${4-i}枚に減る / 秒`;const input=document.createElement('input');input.type='number';input.min=0.05;input.max=10;input.step=0.01;input.value=v/1000;input.id=`threshold${i}`;l.append(input);$('thresholds').append(l);});
+$('saveThreshold').onclick=()=>{const t=[0,1,2,3].map(i=>Math.round(Number($(`threshold${i}`).value)*1000));if(!validThresholds(t)){$('settingMessage').textContent='0.05〜10秒で、小さい順に入力してください。';return;}thresholds=t;persist();hud();$('settingMessage').textContent='適用しました。自己ベストは閾値ごとに記録します。';};
+for(const id of ['layout','showGuide','showKeyboard','sound'])$(id).onchange=()=>{persist();renderGuide();hud();};
+$('start').onclick=()=>{start();$('start')?.blur();};$('retry').onclick=()=>{start();$('retry').blur();};$('pause').onclick=()=>{pause();$('pause').blur();};$('again').onclick=()=>{start();$('again').blur();};$('closeResult').onclick=()=>{$('result').close();};
+document.addEventListener('keydown',hit,true);document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')pause();});
+target='f';tiles();renderGuide();hud();
+})();
+
+
+</script></body></html>
