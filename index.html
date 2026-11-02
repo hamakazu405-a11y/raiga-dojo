@@ -39,32 +39,79 @@
 #feedback{position:relative;bottom:auto;min-height:32px;line-height:1.7;padding:0 4px;overflow-wrap:anywhere;letter-spacing:1px;text-align:center}
 .overlay{z-index:5}
 @media(max-width:480px){.arena{padding:16px 14px 12px;gap:14px}.arena-top{font-size:7px;letter-spacing:0}.arena-top span{max-width:100%}#tileNotice{right:-49px;font-size:20px}#feedback{font-size:11px}}
+
+main{grid-template-columns:minmax(0,1fr);max-width:1120px}
+#playScreen{width:100%;max-width:980px;justify-self:center}
+#menuScreen{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;width:100%}
+.menu-heading,.menu-launch{grid-column:1/-1}
+.menu-heading h1{font-size:30px;margin:12px 0}.menu-heading p{color:var(--muted);line-height:1.9}
+#menuScreen .panel{margin:0}#menuScreen .tip{grid-column:1/-1}
+.menu-launch{border-top:1px solid #465049;padding-top:16px;text-align:center}
+#menuStart{background:var(--lime);color:#172016;padding:16px 36px;font-weight:bold;font-size:16px}
+.menu-launch p{font-size:12px;color:#aab79f}.menu-launch strong{color:var(--lime)}
+#countNumber{font:bold 100px/1.2 monospace;color:var(--lime);margin:16px 0}
+.pause-actions{display:flex;flex-direction:column;gap:12px;align-items:stretch}.overlay{align-items:center;text-align:center}
+.controls{flex-wrap:wrap}.controls>span{line-height:1.7}.arena{min-height:460px}
+@media(max-width:650px){#menuScreen{grid-template-columns:1fr}.menu-heading h1{font-size:25px}.hud{gap:6px}.hud strong{font-size:23px}.controls>span{width:100%}}
+
+#courseTabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}#courseTabs button{flex:1;white-space:nowrap;padding:10px 8px;font-size:12px}#courseTabs .selected{border-color:var(--lime);color:var(--lime);background:#303b24}.level kbd{border:1px solid #536149;border-radius:3px;padding:3px 6px;color:var(--lime);font:12px monospace}.challenge{border-color:var(--orange)}.challenge .level.selected{border-color:var(--orange)}.challenge .level small{color:var(--orange)}.shift-row{justify-content:space-between}.key.shift-key{max-width:90px;font-size:10px}.shortcut-guide{line-height:1.9}
 </style></head>
 <body><main><header><a class="brand" href="./">雷<span>瓦</span>道場 <small>RAIGA / TYPING ARCADE</small></a><span class="tag">手元を見ずに、限界を砕け。</span></header>
-<section class="cabinet"><div class="hud"><div>SCORE<strong id="score">000000</strong></div><div>BEST<strong id="best">000000</strong></div><div id="clockLabel">TIME / 残り<strong id="time">—</strong></div><div>LEVEL<strong id="levelDisplay">01</strong></div></div>
-<div class="arena" id="arena" tabindex="-1" aria-label="タイピングゲーム画面"><div class="arena-top"><span>電撃打鍵修行 / ELECTRIC TILE BREAKER</span><span id="progress">20 KEY TRAINING</span></div><div class="horizon"></div><div class="target-wrap"><span class="eyebrow" id="prompt">READY TO STRIKE</span><div id="target">F</div><div id="fingerHint">左人差し指</div></div><div class="tile-zone" id="tileZone"><div id="tileCount">今なら 5枚 / +5点</div><div id="tileCountdown">次の減少まで 1.5秒</div><div id="tileTimer" aria-hidden="true"><div id="tileTimerFill"></div></div><div id="tileNotice" aria-hidden="true"></div><div id="tiles"></div><div class="pedestal"></div></div><div id="feedback" role="status">一打に、集中。</div><div id="overlay" class="overlay"><h1>一打で、<br><em>限界を砕け。</em></h1><p>文字を見て、正しいキーを打つ。<br>速い一打ほど、多くの瓦が砕ける。</p><button id="start">修行をはじめる <span>↵ ENTER</span></button><small>日本語入力をOFFにしてプレイ</small></div></div>
-<div class="controls"><button id="pause" disabled>Ⅱ 一時停止</button><button id="retry">↻ 再挑戦</button><span id="stats">ミス率 0.0%　 /　平均反応 — 秒</span></div>
+<section class="cabinet" id="playScreen" hidden><div class="hud"><div>SCORE<strong id="score">000000</strong></div><div>BEST<strong id="best">000000</strong></div><div id="clockLabel">TIME / 残り<strong id="time">—</strong></div><div>LEVEL<strong id="levelDisplay">01</strong></div></div>
+<div class="arena" id="arena" tabindex="-1" aria-label="タイピングゲーム画面"><div class="arena-top"><span>電撃打鍵修行 / ELECTRIC TILE BREAKER</span><span id="progress">20 KEY TRAINING</span></div><div class="horizon"></div><div class="target-wrap"><span class="eyebrow" id="prompt">READY TO STRIKE</span><div id="target">F</div><div id="fingerHint">左人差し指</div></div><div class="tile-zone" id="tileZone"><div id="tileCount">今なら 5枚 / +5点</div><div id="tileCountdown">次の減少まで 1.5秒</div><div id="tileTimer" aria-hidden="true"><div id="tileTimerFill"></div></div><div id="tileNotice" aria-hidden="true"></div><div id="tiles"></div><div class="pedestal"></div></div><div id="feedback" role="status">一打に、集中。</div><div id="overlay" class="overlay" hidden></div></div><div class="controls"><button id="pause" disabled>Ⅱ 一時停止</button><button id="retry">↻ 初めから [F2]</button><button id="backMenu">コース・設定 [F3]</button><span id="stats">ミス率 0.0%　 /　平均反応 — 秒</span></div>
 <section class="guide" id="guide"><div class="guide-title"><span>KEY & FINGER GUIDE</span><span id="guideText">ホームポジションに指を置こう</span></div><div id="keyboard"></div><div id="hands"></div></section></section>
-<aside><section class="panel"><div class="section-title">01 <h2>修行を選ぶ</h2></div><div id="levels"></div><p class="note">Lv.1–4：20問 / ミスしても同じ文字<br>Lv.5：60秒 / ミスすると次の文字</p></section><section class="panel settings"><div class="section-title">02 <h2>道場設定</h2></div><label>キーボード配列<select id="layout"><option value="jis">日本語 JIS</option><option value="us">English US</option></select></label><label>キー・指ガイド<input id="showGuide" type="checkbox" checked></label><label>キーボード表示<input id="showKeyboard" type="checkbox" checked></label><label>効果音<input id="sound" type="checkbox" checked></label><details><summary>反応時間の閾値を調整</summary><p>出題時は5枚。以下の秒数を過ぎるたびに4・3・2・1枚へ減少します。残った瓦を割り、1枚につき1点。ミスでも1枚減ります（最低1枚）。初期設定は1.5秒間隔。</p><div id="thresholds"></div><button id="saveThreshold">設定を適用</button><p id="settingMessage" role="status"></p></details></section><div class="tip"><b>鍛えるのは、速さと正確さ。</b><p>肩の力を抜き、FとJの突起を目印に。<br>Escで一時停止。焦らず、一打ずつ。</p></div></aside>
-<footer>RAIGA DOJO © 2026 · ORIGINAL PIXEL-FREE ARCADE <span>HTML / CSS / JAVASCRIPT · OFFLINE READY</span></footer></main><dialog id="result"><span class="eyebrow">TRAINING COMPLETE</span><h2>修行、お疲れさま。</h2><strong id="resultScore"></strong><p id="resultStats"></p><p id="record"></p><button id="again">もう一度挑戦</button><button id="closeResult">道場に戻る</button></dialog><script>
+<aside id="menuScreen"><div class="menu-heading"><span class="eyebrow">TRAINING SELECT</span><h1>今日の修行を、選ぼう。</h1><p>← → タブ切替 / 1〜7 コース選択 / Enterで開始<br>Tabで項目を移動、Spaceで切り替え、Enterでボタン決定</p></div><section class="panel" id="coursePanel"><div class="section-title">01 <h2>修行を選ぶ</h2></div><div id="courseTabs" role="tablist" aria-label="コース分類"></div><div id="levels"></div><p class="note">基礎・応用：指定問数に正解でクリア / ミスしても同じ文字<br>60秒チャレンジ：ミスでも次の問題へ</p></section><section class="panel settings"><div class="section-title">02 <h2>道場設定</h2></div><label>キーボード配列 [L]<select id="layout"><option value="jis">日本語 JIS</option><option value="us">English US</option></select></label><label>キー・指ガイド [G]<input id="showGuide" type="checkbox" checked></label><label>キーボード表示 [K]<input id="showKeyboard" type="checkbox" checked></label><label>効果音 [S]<input id="sound" type="checkbox" checked></label><details><summary>反応時間の閾値を調整</summary><p>出題時は5枚。以下の秒数を過ぎるたびに4・3・2・1枚へ減少します。残った瓦を割り、1枚につき1点。ミスでも1枚減ります（最低1枚）。初期設定は1.5秒間隔。</p><div id="thresholds"></div><button id="saveThreshold">設定を適用</button><p id="settingMessage" role="status"></p></details></section><div class="tip"><b>鍛えるのは、速さと正確さ。</b><p>肩の力を抜き、FとJの突起を目印に。<br>Escで一時停止。焦らず、一打ずつ。</p></div><div class="menu-launch"><p>選択中：<strong id="selectedCourse">ホームポジション</strong></p><button id="menuStart">修行をはじめる [Enter]</button><p>開始前に3秒のカウントダウン</p><p class="shortcut-guide">← → タブ切替　|　1〜7 コース選択　|　Enter スタート</p></div></aside>
+<footer>RAIGA DOJO © 2026 · ORIGINAL PIXEL-FREE ARCADE <span>HTML / CSS / JAVASCRIPT · OFFLINE READY</span></footer></main><dialog id="result"><span class="eyebrow">TRAINING COMPLETE</span><h2>修行、お疲れさま。</h2><strong id="resultScore"></strong><p id="resultStats"></p><p id="record"></p><button id="again">もう一度挑戦 [R]</button><button id="closeResult">コース・設定へ [M]</button></dialog><script>
 'use strict';
 (() => {
 const $=id=>document.getElementById(id);
 const names=['左小指','左薬指','左中指','左人差し指','右人差し指','右中指','右薬指','右小指'];
-const descriptions=['ホームポジション','上段を追加','下段を追加','数字・記号を追加','60秒スコアアタック'];
-const letters=['asdfjkl;','asdfghjkl;qwertyuiop','abcdefghijklmnopqrstuvwxyz;','abcdefghijklmnopqrstuvwxyz;1234567890-^@[]:,./\\','abcdefghijklmnopqrstuvwxyz;1234567890-^@[]:,./\\'];
-const usRows=['1234567890-=','qwertyuiop[]\\',"asdfghjkl;'",'zxcvbnm,./'];
-const jisRows=['1234567890-^\\','qwertyuiop@[','asdfghjkl;:]','zxcvbnm,./\\'];
-let level=1, state='idle',target='',score=0,correct=0,misses=0,totalMs=0,remaining=60000,lastTick=0,shown=0,pausedAt=0,raf=0,audio,thresholds=[1500,3000,4500,6000],best={},settings={},tilePenalty=0;
+const KEY_SETS=Object.freeze({home:'ASDFJKL',middle:'ASDFGHJKL',upper:'QWERTYUIOP',lower:'ZXCVBNM,.',alphabet:'ABCDEFGHIJKLMNOPQRSTUVWXYZ',digits:'0123456789'});
+const SYMBOL_SETS=Object.freeze({jis:',./;:-^@[]\\!?()"',us:",./;:-=[]\\!?()'\""});
+const courses=[
+ {name:'ホームポジション',id:'home',set:'home',count:20,tab:0},
+ {name:'中段のみ',id:'middle',set:'middle',count:20,tab:0},
+ {name:'上段のみ',id:'upper',set:'upper',count:20,tab:0},
+ {name:'中段＋上段',id:'middle-upper',sets:['middle','upper'],count:30,tab:0},
+ {name:'下段のみ',id:'lower',set:'lower',count:20,tab:0},
+ {name:'中段＋下段',id:'middle-lower',sets:['middle','lower'],count:30,tab:0},
+ {name:'全英字',id:'alphabet',set:'alphabet',count:40,tab:0},
+ {name:'数字のみ',id:'digits',set:'digits',count:20,tab:1},
+ {name:'記号のみ',id:'symbols',symbols:true,count:20,tab:1},
+ {name:'総合練習',id:'comprehensive',sets:['alphabet','digits'],symbols:true,count:60,tab:1},
+ {name:'全英字 / 60秒',id:'alphabet-attack',set:'alphabet',timed:true,tab:2},
+ {name:'総合 / 60秒',id:'comprehensive-attack',sets:['alphabet','digits'],symbols:true,timed:true,tab:2},
+ {name:'上段のみ / 60秒',id:'upper-attack',set:'upper',timed:true,tab:2},
+ {name:'中段のみ / 60秒',id:'middle-attack',set:'middle',timed:true,tab:2},
+ {name:'下段のみ / 60秒',id:'lower-attack',set:'lower',timed:true,tab:2}
+];
+const descriptions=courses.map(c=>c.name),tabNames=['基礎練習','応用練習','60秒チャレンジ'];
+const timed=()=>Boolean(courses[level-1].timed);
+let questionBag=[],activeTab=0;
+// Each tuple explicitly pairs the unshifted and shifted legends of a physical key.
+const LAYOUTS={
+ us:[['1234567890-=','!@#$%^&*()_+'],['qwertyuiop[]\\','QWERTYUIOP{}|'],["asdfghjkl;'",'ASDFGHJKL:"'],['zxcvbnm,./','ZXCVBNM<>?']],
+ jis:[['1234567890-^\\',"!\"#$%&'()0=~|"],['qwertyuiop@[','QWERTYUIOP`{'],['asdfghjkl;:]','ASDFGHJKL+*}'],['zxcvbnm,./\\','ZXCVBNM<>?_']]
+};
+function keyRows(){return LAYOUTS[$('layout').value].map(([base,shift],r)=>[...base].map((c,i)=>({base:c,shift:shift[i],finger:(r===3?[0,1,2,3,3,4,4,5,6,7,7]:[0,1,2,3,3,4,4,5,6,7,7,7,7])[i]})));}
+function keyInfo(char){return keyRows().flat().find(k=>k.base===char||k.shift===char);}
+let level=1, state='menu',target='',score=0,correct=0,misses=0,totalMs=0,remaining=60000,lastTick=0,shown=0,pausedAt=0,raf=0,audio,thresholds=[1500,3000,4500,6000],best={},settings={},tilePenalty=0,countdownEnd=0;
 try{best=JSON.parse(localStorage.getItem('raiga.best.v1')||'{}');settings=JSON.parse(localStorage.getItem('raiga.settings.v1')||'{}');if(!best||typeof best!=='object')best={};if(!settings||typeof settings!=='object')settings={};}catch{best={};settings={};}
 const validThresholds=t=>Array.isArray(t)&&t.length===4&&t.every((v,i)=>Number.isFinite(v)&&v>=50&&v<=10000&&(!i||v>t[i-1]));
 if(settings.rulesVersion===3&&validThresholds(settings.thresholds))thresholds=settings.thresholds;
 for(const id of ['showGuide','showKeyboard','sound'])if(typeof settings[id]==='boolean')$(id).checked=settings[id];
 $('layout').value=settings.layout==='us'?'us':'jis';
 function persist(){try{localStorage.setItem('raiga.settings.v1',JSON.stringify({rulesVersion:3,layout:$('layout').value,showGuide:$('showGuide').checked,showKeyboard:$('showKeyboard').checked,sound:$('sound').checked,thresholds}));}catch{}}
-function recordKey(){return `v3-${$('layout').value}-${level}-${thresholds.join('-')}`;}
-function finger(char){const rows=$('layout').value==='us'?usRows:jisRows;for(let r=0;r<rows.length;r++){let i=rows[r].indexOf(char);if(i>=0){const map=r===3?[0,1,2,3,3,4,4,5,6,7,7]:[0,1,2,3,3,4,4,5,6,7,7,7,7];return map[i]??7;}}return 7;}
-function renderGuide(){const on=$('showGuide').checked;const f=finger(target);$('fingerHint').textContent=on?names[f]:'';$('guideText').textContent=on?`${target.toUpperCase()} → ${names[f]}`:'ガイド OFF';$('keyboard').hidden=!$('showKeyboard').checked;$('hands').hidden=!on;$('keyboard').replaceChildren();for(const row of ($('layout').value==='us'?usRows:jisRows)){const el=document.createElement('div');el.className='key-row';for(const c of row){const k=document.createElement('span');k.className='key'+('fj'.includes(c)?' home':'')+(on&&c===target?' active':'');k.textContent=c==='\\'?'\\':c.toUpperCase();el.append(k);}$('keyboard').append(el);}$('hands').replaceChildren();for(let hand=0;hand<2;hand++){const h=document.createElement('div');h.className='hand';for(const idx of hand===0?[0,1,2,3]:[4,5,6,7]){const el=document.createElement('span');el.className='finger'+(on&&idx===f?' active':'');el.textContent=['小','薬','中','人','人','中','薬','小'][idx];el.title=names[idx];h.append(el);}$('hands').append(h);}}
+function recordKey(){return `v5-${$('layout').value}-${courses[level-1].id}-${thresholds.join('-')}`;}
+function renderGuide(){
+ const on=$('showGuide').checked,info=keyInfo(target),f=info?info.finger:0,shift=Boolean(info&&info.base!==target&&!/[a-z]/i.test(target));
+ const shiftName=f<4?'右Shift':'左Shift';const hint=names[f]+(shift?` ＋ ${shiftName}`:'');
+ $('fingerHint').textContent=on&&target?hint:'';$('guideText').textContent=on&&target?`${target.toUpperCase()} → ${hint}`:'ガイド OFF';
+ $('keyboard').hidden=!$('showKeyboard').checked;$('hands').hidden=!on;$('keyboard').replaceChildren();
+ for(const row of keyRows()){const el=document.createElement('div');el.className='key-row';for(const k of row){const key=document.createElement('span');key.className='key'+('fj'.includes(k.base)?' home':'')+(on&&info&&k.base===info.base?' active':'');key.textContent=/[a-z]/.test(k.base)?k.base.toUpperCase():k.base;key.title=`${k.base} / Shift: ${k.shift}`;el.append(key);}$('keyboard').append(el);}
+ const shifts=document.createElement('div');shifts.className='key-row shift-row';for(const side of ['左Shift','右Shift']){const el=document.createElement('span');el.className='key shift-key'+(on&&shift&&side===shiftName?' active':'');el.textContent=side;shifts.append(el);}$('keyboard').append(shifts);
+ $('hands').replaceChildren();for(let hand=0;hand<2;hand++){const h=document.createElement('div');h.className='hand';for(const idx of hand===0?[0,1,2,3]:[4,5,6,7]){const el=document.createElement('span');const selected=idx===f||(shift&&idx===(f<4?7:0));el.className='finger'+(on&&target&&selected?' active':'');el.textContent=['小','薬','中','人','人','中','薬','小'][idx];el.title=names[idx];h.append(el);}$('hands').append(h);}
+}
 function tiles(n=5){$('tiles').replaceChildren();for(let i=0;i<n;i++){const t=document.createElement('div');t.className='tile';$('tiles').append(t);}}
 function breakCount(elapsed){return Math.max(1,5-thresholds.filter(t=>elapsed>=t).length-tilePenalty);}
 function updateTiles(now){
@@ -85,30 +132,56 @@ function updateTiles(now){
  $('tileCount').textContent=`今なら ${n}枚 / +${n}点`;
  $('tileCountdown').textContent=countdown;
 }
-function hud(){ $('score').textContent=String(score).padStart(6,'0');$('best').textContent=String(Number(best[recordKey()])||0).padStart(6,'0');$('levelDisplay').textContent=String(level).padStart(2,'0');$('time').textContent=level===5?(remaining/1000).toFixed(1)+' 秒':'—';$('progress').textContent=level===5?'60 SECOND SCORE ATTACK':`${correct} / 20 KEYS`;$('stats').textContent=`ミス率 ${correct+misses?(100*misses/(correct+misses)).toFixed(1):'0.0'}%　 /　平均反応 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;}
-function pool(){let p=letters[level-1];if(level>=4&&$('layout').value==='us')p="abcdefghijklmnopqrstuvwxyz;1234567890-=[]',./\\";return p;}
+function hud(){ $('score').textContent=String(score).padStart(6,'0');$('best').textContent=String(Number(best[recordKey()])||0).padStart(6,'0');$('levelDisplay').textContent=String(level).padStart(2,'0');$('time').textContent=timed()?(remaining/1000).toFixed(1)+' 秒':'—';$('progress').textContent=timed()?'60 SECOND SCORE ATTACK':`${correct} / ${courses[level-1].count} KEYS`;$('stats').textContent=`ミス率 ${correct+misses?(100*misses/(correct+misses)).toFixed(1):'0.0'}%　 /　平均反応 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;}
+function pool(){const c=courses[level-1];return [...new Set((c.set?KEY_SETS[c.set]:'')+(c.sets?c.sets.map(k=>KEY_SETS[k]).join(''):'')+(c.symbols?SYMBOL_SETS[$('layout').value]:'') )].join('').toLowerCase();}
+function drawQuestion(){
+ if(!questionBag.length){questionBag=[...new Set(pool())];for(let i=questionBag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[questionBag[i],questionBag[j]]=[questionBag[j],questionBag[i]];}if(questionBag.length>1&&questionBag[questionBag.length-1]===target){[questionBag[0],questionBag[questionBag.length-1]]=[questionBag[questionBag.length-1],questionBag[0]];}}
+ return questionBag.pop();
+}
 function focusGame(){const arena=$('arena');if(arena.focus)arena.focus({preventScroll:true});}
-function advanceQuestion(penalty=0,first=false){$('tileNotice').classList.remove('show');tilePenalty=penalty;const p=pool();let options=[...p].filter(c=>c!==target);target=first?'f':options[Math.floor(Math.random()*options.length)];$('target').textContent=target.toUpperCase();renderGuide();shown=performance.now();tiles();updateTiles(shown);}
+function advanceQuestion(penalty=0){$('tileNotice').classList.remove('show');tilePenalty=penalty;target=drawQuestion();$('target').textContent=target.toUpperCase();renderGuide();shown=performance.now();tiles();updateTiles(shown);}
 function tone(good,n=1){if(!$('sound').checked)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();const resumed=audio.resume();if(resumed&&resumed.catch)resumed.catch(()=>{});const t=audio.currentTime;for(let i=0;i<(good?n:1);i++){const o=audio.createOscillator(),g=audio.createGain();const at=t+i*.045;o.type=good?(n>=4?'sawtooth':'triangle'):'square';o.frequency.setValueAtTime(good?170+n*65+i*90:110,at);o.frequency.exponentialRampToValueAtTime(good?35+n*8:45,at+.12+n*.012);g.gain.setValueAtTime(good?.035+n*.006:.035,at);g.gain.exponentialRampToValueAtTime(.001,at+.16+n*.012);o.connect(g).connect(audio.destination);o.start(at);o.stop(at+.19+n*.012);}}catch{}}
 function burst(n){for(let i=0;i<n*5;i++){const e=document.createElement('i');e.className='fragment';e.style.left=`${35+Math.random()*30}%`;e.style.top=`${245+Math.random()*55}px`;e.style.setProperty('--x',`${(Math.random()-.5)*450}px`);e.style.setProperty('--y',`${-80+Math.random()*220}px`);e.style.setProperty('--r',`${Math.random()*700}deg`);$('arena').append(e);setTimeout(()=>e.remove(),600);}$('arena').classList.remove('strike');void $('arena').offsetWidth;$('arena').classList.add('strike');}
-function tick(){const now=performance.now();if(state!=='playing')return;if(level===5){remaining=Math.max(0,remaining-(now-lastTick));if(!remaining){finish();return;}}lastTick=now;updateTiles(now);hud();raf=setTimeout(tick,40);}
+function tick(){const now=performance.now();if(state==='countdown'){const left=countdownEnd-now;if(left>0){$('countNumber').textContent=String(Math.ceil(left/1000));raf=setTimeout(tick,40);return;}beginPlay();return;}if(state!=='playing')return;if(timed()){remaining=Math.max(0,remaining-(now-lastTick));if(!remaining){finish();return;}}lastTick=now;updateTiles(now);hud();raf=setTimeout(tick,40);}
 function lock(on){$('layout').disabled=on;$('saveThreshold').disabled=on;document.querySelectorAll('.level').forEach(b=>b.disabled=on);}
-function start(){clearTimeout(raf);$('result').close();state='playing';score=correct=misses=totalMs=0;remaining=60000;tilePenalty=0;$('overlay').hidden=true;$('pause').disabled=false;$('pause').textContent='Ⅱ 一時停止';$('prompt').textContent='STRIKE THE KEY';$('feedback').textContent='一打に、集中。';lock(true);tiles();advanceQuestion(0,true);lastTick=performance.now();hud();raf=setTimeout(tick,40);focusGame();}
-function pause(){if(state==='playing'){state='paused';pausedAt=performance.now();clearTimeout(raf);$('overlay').hidden=false;$('overlay').innerHTML='<h1>一息、入れよう。</h1><p>計測は停止しています。</p><button id="resume">修行を再開 ↵</button>';$('resume').onclick=pause;$('pause').textContent='▶ 再開';}else if(state==='paused'){const now=performance.now();shown+=now-pausedAt;lastTick=now;state='playing';$('overlay').hidden=true;$('pause').textContent='Ⅱ 一時停止';raf=setTimeout(tick,40);focusGame();}}
-function finish(){state='finished';clearTimeout(raf);lock(false);$('pause').disabled=true;const prev=Number(best[recordKey()])||0;const fresh=score>prev;if(fresh){best[recordKey()]=score;try{localStorage.setItem('raiga.best.v1',JSON.stringify(best));}catch{}}hud();$('resultScore').textContent=`${score.toLocaleString()} pt`;$('resultStats').textContent=`Lv.${level} / ${correct} 正解・${misses} ミス / ミス率 ${correct+misses?(misses/(correct+misses)*100).toFixed(1):'0.0'}% / 平均 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;$('record').textContent=fresh?'NEW RECORD — 自己ベスト更新！':'次の一打で、さらに上へ。';$('result').showModal();}
+function menu(){clearTimeout(raf);state='menu';$('result').close();lock(false);$('playScreen').hidden=true;$('menuScreen').hidden=false;$('menuStart').focus?.();}
+function selectCourse(i){if(!courses[i-1])return;questionBag=[];level=i;activeTab=courses[i-1].tab;renderCourses();$('selectedCourse').textContent=descriptions[i-1];hud();}
+function changeTab(tab){activeTab=(tab+3)%3;selectCourse(courses.findIndex(c=>c.tab===activeTab)+1);}
+function renderCourses(){
+ document.querySelectorAll('.level').forEach((button,j)=>{button.hidden=courses[j].tab!==activeTab;button.classList.toggle('selected',j+1===level);button.setAttribute?.('aria-pressed',String(j+1===level));});
+ [...$('courseTabs').children].forEach((button,j)=>{button.classList.toggle('selected',j===activeTab);button.setAttribute?.('aria-selected',String(j===activeTab));});
+ $('coursePanel').classList.toggle('challenge',activeTab===2);
+}
+function start(){questionBag=[];target='';clearTimeout(raf);$('result').close();state='countdown';score=correct=misses=totalMs=0;remaining=60000;tilePenalty=0;$('menuScreen').hidden=true;$('playScreen').hidden=false;lock(true);$('pause').disabled=true;$('pause').textContent='Ⅱ 一時停止 [Esc]';$('target').textContent='—';tiles();$('tileCount').textContent='5枚 / 5点';$('tileCountdown').textContent='開始を待っています';$('feedback').textContent='指をホームポジションへ';$('overlay').hidden=false;$('overlay').innerHTML='<span class="eyebrow">GET READY</span><div id="countNumber" role="status">3</div><p>まもなく開始します</p><button id="cancelCountdown">選択画面に戻る [Esc]</button>';$('countNumber').textContent='3';$('cancelCountdown').onclick=menu;countdownEnd=performance.now()+3000;hud();raf=setTimeout(tick,40);focusGame();}
+function beginPlay(){state='playing';$('overlay').hidden=true;$('pause').disabled=false;$('prompt').textContent='STRIKE THE KEY';$('feedback').textContent='一打に、集中。';advanceQuestion();lastTick=performance.now();raf=setTimeout(tick,40);focusGame();}
+function pause(){if(state==='playing'){const now=performance.now();if(timed()){remaining=Math.max(0,remaining-(now-lastTick));if(!remaining){finish();return;}}state='paused';pausedAt=now;clearTimeout(raf);$('overlay').hidden=false;$('overlay').innerHTML='<h1>一息、入れよう。</h1><p>計測は停止しています。</p><div class="pause-actions"><button id="resume">再開 [Enter / Esc]</button><button id="restartPaused">初めから [R]</button><button id="menuPaused">コース・設定へ [M]</button></div>';$('resume').onclick=pause;$('restartPaused').onclick=start;$('menuPaused').onclick=menu;$('pause').textContent='▶ 再開 [Esc]';focusGame();}else if(state==='paused'){const now=performance.now();shown+=now-pausedAt;lastTick=now;state='playing';$('overlay').hidden=true;$('pause').textContent='Ⅱ 一時停止 [Esc]';raf=setTimeout(tick,40);focusGame();}}
+function finish(){state='finished';clearTimeout(raf);lock(false);$('pause').disabled=true;const prev=Number(best[recordKey()])||0;const fresh=score>prev;if(fresh){best[recordKey()]=score;try{localStorage.setItem('raiga.best.v1',JSON.stringify(best));}catch{}}hud();$('resultScore').textContent=`${score.toLocaleString()} pt`;$('resultStats').textContent=`${descriptions[level-1]} / ${score}枚破壊 / ${correct} 正解・${misses} ミス / 正答率 ${correct+misses?(100*correct/(correct+misses)).toFixed(1):'0.0'}% / ミス率 ${correct+misses?(misses/(correct+misses)*100).toFixed(1):'0.0'}% / 平均 ${correct?(totalMs/correct/1000).toFixed(3):'—'} 秒`;$('record').textContent=`自己ベスト ${Number(best[recordKey()])||0}点${fresh?' / NEW RECORD!':''}`;$('result').showModal();}
 function hit(e){
- const element=e.target;
- if(element&&typeof element.closest==='function'&&element.closest('input,select,textarea,summary,dialog'))return;
- if(e.key==='Enter'&&element&&typeof element.closest==='function'&&element.closest('button'))return;
+ const element=e.target;const editable=element&&typeof element.closest==='function'&&element.closest('input,select,textarea,summary');
+ if(e.ctrlKey||e.metaKey||e.altKey||e.isComposing||e.repeat)return;
+ const k=e.key.toLowerCase();
+ if(state==='countdown'){if(e.key==='Escape'){e.preventDefault();menu();}return;}
+ if(state==='menu'){
+  if(editable)return;
+  if(/^[1-7]$/.test(e.key)){e.preventDefault();const match=courses.map((c,i)=>({...c,index:i+1})).filter(c=>c.tab===activeTab)[Number(e.key)-1];if(match)selectCourse(match.index);return;}
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();changeTab(activeTab+(e.key==='ArrowLeft'?-1:1));return;}
+  if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();const group=courses.map((c,i)=>i+1).filter(i=>courses[i-1].tab===activeTab);const j=group.indexOf(level);selectCourse(group[(j+(e.key==='ArrowUp'?-1:1)+group.length)%group.length]);return;}
+  if(e.key==='Enter'&&element?.id!=='saveThreshold'){e.preventDefault();start();return;}
+  if(['g','k','s','l'].includes(k)){e.preventDefault();const id={g:'showGuide',k:'showKeyboard',s:'sound',l:'layout'}[k];if(k==='l')$(id).value=$(id).value==='jis'?'us':'jis';else $(id).checked=!$(id).checked;$(id).onchange();return;}
+  return;
+ }
+ if(state==='finished'){if((e.key==='Enter'&&!element?.closest?.('button'))||k==='r'){e.preventDefault();start();}else if(k==='m'||e.key==='Escape'){e.preventDefault();menu();}return;}
+ if(state==='paused'){if(e.key==='Escape'||(e.key==='Enter'&&!element?.closest?.('button'))){e.preventDefault();pause();}else if(k==='r'){e.preventDefault();start();}else if(k==='m'){e.preventDefault();menu();}return;}
  if(e.key==='Escape'){e.preventDefault();pause();return;}
- if(e.key==='Enter'&&(state==='idle'||state==='finished')){e.preventDefault();start();return;}
- if(e.key==='Enter'&&state==='paused'){e.preventDefault();pause();return;}
+ if(e.key==='F2'){e.preventDefault();start();return;}
+ if(e.key==='F3'){e.preventDefault();menu();return;}
+ if(editable)return;
  if(state!=='playing'||e.repeat||e.ctrlKey||e.metaKey||e.altKey||e.isComposing||e.key==='Process'||e.key.length!==1)return;
  e.preventDefault();const now=performance.now();
- if(level===5&&remaining-(now-lastTick)<=0){remaining=0;finish();return;}
+ if(timed()&&remaining-(now-lastTick)<=0){remaining=0;finish();return;}
  if(e.key.toLowerCase()===target){
   const ms=now-shown,n=breakCount(ms);score+=n;correct++;totalMs+=ms;
-  const complete=level<5&&correct>=20;
+  const complete=!timed()&&correct>=courses[level-1].count;
   // Update the next playable question before running optional audiovisual effects.
   if(!complete)advanceQuestion();
   hud();$('feedback').textContent=`${n} BREAK! +${n} / ${(ms/1000).toFixed(3)} 秒`;
@@ -116,20 +189,21 @@ function hit(e){
   tone(true,n);if(complete)finish();
  }else{
   misses++;tilePenalty++;updateTiles(now);
-  if(level===5)advanceQuestion(1);
-  hud();$('feedback').textContent=level===5?'MISS — 瓦を1枚減らして次の文字へ':'MISS — 瓦が減少、同じ文字に再挑戦';
+  if(timed())advanceQuestion(1);
+  hud();$('feedback').textContent=timed()?'MISS — 瓦を1枚減らして次の文字へ':'MISS — 瓦が減少、同じ文字に再挑戦';
   tone(false);$('arena').classList.add('miss');setTimeout(()=>$('arena').classList.remove('miss'),150);
  }
 }
 // Event wiring
-for(let i=1;i<=5;i++){const b=document.createElement('button');b.className='level'+(i===level?' selected':'');b.innerHTML=`<b>0${i}</b><span>${descriptions[i-1]}<small>${['ASDF JKL;','+ QWERTY / GH','+ ZXCVBNM','+ 123 / SYMBOLS','ALL KEYS · 60 SEC'][i-1]}</small></span>`;b.onclick=()=>{level=i;document.querySelectorAll('.level').forEach((b,j)=>b.classList.toggle('selected',j+1===i));hud();advanceQuestion();b.blur();};$('levels').append(b);}
+for(let tab=0;tab<3;tab++){const b=document.createElement('button');b.textContent=tabNames[tab];b.setAttribute('role','tab');b.onclick=()=>{changeTab(tab);b.blur();};$('courseTabs').append(b);}
+for(let i=1;i<=courses.length;i++){const c=courses[i-1],b=document.createElement('button'),shortcut=courses.slice(0,i).filter(x=>x.tab===c.tab).length;b.className='level';b.innerHTML=`<kbd>${shortcut}</kbd><b>${String(i).padStart(2,'0')}</b><span>${c.name}<small>${c.timed?'60 SEC':c.count+'問'}</small></span>`;b.onclick=()=>{selectCourse(i);b.blur();};$('levels').append(b);}
 thresholds.forEach((v,i)=>{const l=document.createElement('label');l.textContent=`${4-i}枚に減る / 秒`;const input=document.createElement('input');input.type='number';input.min=0.05;input.max=10;input.step=0.01;input.value=v/1000;input.id=`threshold${i}`;l.append(input);$('thresholds').append(l);});
 $('saveThreshold').onclick=()=>{const t=[0,1,2,3].map(i=>Math.round(Number($(`threshold${i}`).value)*1000));if(!validThresholds(t)){$('settingMessage').textContent='0.05〜10秒で、小さい順に入力してください。';return;}thresholds=t;persist();hud();$('settingMessage').textContent='適用しました。自己ベストは閾値ごとに記録します。';};
-for(const id of ['layout','showGuide','showKeyboard','sound'])$(id).onchange=()=>{persist();renderGuide();hud();};
-$('start').onclick=()=>{start();$('start')?.blur();};$('retry').onclick=()=>{start();$('retry').blur();};$('pause').onclick=()=>{pause();$('pause').blur();};$('again').onclick=()=>{start();$('again').blur();};$('closeResult').onclick=()=>{$('result').close();};
-document.addEventListener('keydown',hit,true);document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing')pause();});
-target='f';tiles();renderGuide();hud();
+for(const id of ['layout','showGuide','showKeyboard','sound'])$(id).onchange=()=>{questionBag=[];persist();renderGuide();hud();};
+$('menuStart').onclick=start;$('retry').onclick=start;$('pause').onclick=pause;$('again').onclick=start;$('closeResult').onclick=menu;$('backMenu').onclick=menu;
+$('result').addEventListener('cancel',e=>{e.preventDefault();menu();});
+document.addEventListener('keydown',hit,true);document.addEventListener('visibilitychange',()=>{if(document.hidden){if(state==='playing')pause();else if(state==='countdown')menu();}});
+target='f';tiles();renderGuide();selectCourse(1);menu();
 })();
-
 
 </script></body></html>
