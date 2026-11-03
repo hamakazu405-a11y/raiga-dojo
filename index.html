@@ -55,6 +55,24 @@ main{grid-template-columns:minmax(0,1fr);max-width:1120px}
 @media(max-width:650px){#menuScreen{grid-template-columns:1fr}.menu-heading h1{font-size:25px}.hud{gap:6px}.hud strong{font-size:23px}.controls>span{width:100%}}
 
 #courseTabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}#courseTabs button{flex:1;white-space:nowrap;padding:10px 8px;font-size:12px}#courseTabs .selected{border-color:var(--lime);color:var(--lime);background:#303b24}.level kbd{border:1px solid #536149;border-radius:3px;padding:3px 6px;color:var(--lime);font:12px monospace}.challenge{border-color:var(--orange)}.challenge .level.selected{border-color:var(--orange)}.challenge .level small{color:var(--orange)}.shift-row{justify-content:space-between}.key.shift-key{max-width:90px;font-size:10px}.shortcut-guide{line-height:1.9}
+
+/* Fit the complete active screen inside the viewport without hiding controls. */
+html,body{width:100%;height:100%;overflow:hidden}
+main{position:absolute;left:50%;top:50%;width:var(--stage-width,1080px);max-width:none;padding:14px 20px;gap:12px;transform:translate(-50%,-50%) scale(var(--stage-scale,1));transform-origin:center}
+header{padding-bottom:10px}.brand{font-size:25px}.brand small{font-size:9px;margin-top:2px}footer{padding:0;font-size:8px}
+#menuScreen{gap:12px;grid-template-columns:1.1fr 1fr}.menu-heading h1{font-size:24px;margin:6px 0}.menu-heading>p{display:none}.menu-heading .eyebrow{font-size:9px}
+#menuScreen .panel{padding:14px}.section-title{margin-bottom:10px}#courseTabs{gap:5px;margin-bottom:10px}#courseTabs button{padding:8px 6px;font-size:11px}
+#levels{gap:5px}.level{padding:7px 10px;gap:10px;min-height:43px}.level b{font-size:18px}.level small{margin-top:2px}.note{margin-top:8px;line-height:1.6}
+#menuScreen .tip{display:none}.settings label{margin:11px 0}.settings details{padding-top:10px}.settings details p{margin:8px 0;font-size:10px}
+#thresholds{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}#thresholds label{margin:0;gap:6px}#thresholds input{width:68px}
+.menu-launch{padding-top:10px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 16px;text-align:left}.menu-launch p{margin:0}.menu-launch>p:nth-of-type(2){display:none}.menu-launch .shortcut-guide{grid-column:1/-1;text-align:center;font-size:11px}#menuStart{padding:12px 26px;font-size:14px}
+#playScreen{max-width:980px}.hud{padding:10px 18px;gap:16px}.hud strong{font-size:27px;margin-top:3px}
+.arena{min-height:0;padding:12px 20px 8px;gap:9px}.target-wrap{gap:3px}#target{font-size:80px;line-height:84px;min-height:84px}#prompt{font-size:9px;line-height:13px}#fingerHint{min-height:16px;line-height:16px}.tile-zone{gap:6px}#feedback{min-height:22px;line-height:1.5;font-size:11px}
+.controls{padding:8px 14px;gap:7px;flex-wrap:nowrap}.controls button{padding:6px 9px;font-size:10px}.controls>span{width:auto;margin-left:auto;font-size:10px}
+.guide{padding:10px 14px}.guide-title{margin-bottom:8px}#keyboard{max-width:600px}.key-row{gap:4px;margin:3px 0}.key{height:25px}.key.shift-key{height:22px}#hands{margin-top:8px;gap:36px}.finger{height:25px;padding-top:7px}.finger:nth-child(2),.finger:nth-child(4){height:33px}.finger:nth-child(3){height:38px}
+.overlay h1{font-size:30px}.overlay p{margin:8px 0}.pause-actions{gap:8px}#countNumber{font-size:86px;margin:6px 0}
+dialog{max-width:none;width:600px;padding:28px;overflow:hidden;transform:scale(var(--dialog-scale,1));transform-origin:center}dialog h2{margin:12px 0;font-size:22px}dialog p{margin:10px 0}
+@media(max-width:760px){header{margin-bottom:0}main{display:grid}#menuScreen{grid-template-columns:1.1fr 1fr}.cabinet{margin-bottom:0}.tag{display:none}.controls>span{width:auto}footer span{display:none}#menuScreen .panel{padding:12px}}
 </style></head>
 <body><main><header><a class="brand" href="./">雷<span>瓦</span>道場 <small>RAIGA / TYPING ARCADE</small></a><span class="tag">手元を見ずに、限界を砕け。</span></header>
 <section class="cabinet" id="playScreen" hidden><div class="hud"><div>SCORE<strong id="score">000000</strong></div><div>BEST<strong id="best">000000</strong></div><div id="clockLabel">TIME / 残り<strong id="time">—</strong></div><div>LEVEL<strong id="levelDisplay">01</strong></div></div>
@@ -204,6 +222,23 @@ $('menuStart').onclick=start;$('retry').onclick=start;$('pause').onclick=pause;$
 $('result').addEventListener('cancel',e=>{e.preventDefault();menu();});
 document.addEventListener('keydown',hit,true);document.addEventListener('visibilitychange',()=>{if(document.hidden){if(state==='playing')pause();else if(state==='countdown')menu();}});
 target='f';tiles();renderGuide();selectCourse(1);menu();
+
+// Measure the full natural layout, then scale only when the viewport needs it.
+function fitViewport(){
+ if(typeof window==='undefined'||!document.querySelector)return;
+ const stage=document.querySelector('main');if(!stage)return;
+ const width=Math.max(650,Math.min(1100,window.innerWidth-24));
+ stage.style.setProperty('--stage-width',width+'px');
+ const scale=Math.min(1,(window.innerWidth-16)/width,(window.innerHeight-16)/Math.max(1,stage.offsetHeight));
+ stage.style.setProperty('--stage-scale',String(Math.max(.1,scale)));
+ const result=$('result');if(result.open){result.style.setProperty('--dialog-scale',String(Math.min(1,(window.innerWidth-20)/result.offsetWidth,(window.innerHeight-20)/result.offsetHeight)));}
+}
+if(typeof window!=='undefined'){
+ window.addEventListener('resize',fitViewport);
+ if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(fitViewport);const stage=document.querySelector('main');if(stage)observer.observe(stage);observer.observe($('result'));}
+ document.addEventListener('toggle',fitViewport,true);
+ fitViewport();
+}
 })();
 
 </script></body></html>
